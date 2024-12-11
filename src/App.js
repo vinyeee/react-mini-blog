@@ -18,6 +18,7 @@ function App() {
     newLikes[index] += 1;
     addLike(newLikes);
   }
+
   return (
     <div className="App">
       <BlackNavBar></BlackNavBar>
@@ -39,7 +40,7 @@ function App() {
 
         
       {
-        modal == true ? <Modal ></Modal> : null 
+        modal == true ? <Modal modifyTitle = {modifyTitle} titles = {titles} ></Modal> : null 
       }
 
     </div>
@@ -57,12 +58,18 @@ function App() {
 // }
 
 
-function Modal(){
+function Modal(props){
   return (
     <div className = "modal">
-      <h4>제목</h4>
+      <h4>{props.titles[0]}</h4>
       <p>날짜</p>
       <p>상세 내용</p>
+      <button onClick={ () => {
+        let newTitle = [...props.titles];
+        newTitle[0] = "여자코트 추천";
+        props.modifyTitle(newTitle);
+
+      } }>글 수정</button>
     </div>
   )
 }
