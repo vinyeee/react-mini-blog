@@ -31,7 +31,17 @@ function App() {
     addLike(newLikes);
   }
 
- 
+  function deletePost(index){
+    let newPosts = [...posts];
+    newPosts.splice(index,1);
+    setPosts(newPosts);
+
+    let newLikes = [...likes];
+    newLikes.splice(index,1);
+    addLike(newLikes);
+  }
+
+
   return (
     <div className="App">
       <BlackNavBar></BlackNavBar>
