@@ -9,10 +9,11 @@ function App() {
   //let post = "강남 우동 맛집";
   
   // 자주 변경 될 것 같은 html 부분은 state로 만들어놓기
-  let [posts, modifyTitle] = useState(["남자코트 추천","강남 우동 맛집", "파이썬 독학"]); // [state 에 보관했던 자료, state 변경 도와주는 함수]
+  let [posts, setPosts] = useState(["남자코트 추천","강남 우동 맛집", "파이썬 독학"]); // [state 에 보관했던 자료, state 변경 도와주는 함수]
   let [likes, addLike] = useState([0,0,0]);
   let [modal, setModal] = useState(false);
   let [title, setTitle] = useState(0);
+  let [inputValue,setInputValue] = useState('');
   
   function likeHandler(index){
     let newLikes = [...likes];
@@ -20,6 +21,17 @@ function App() {
     addLike(newLikes);
   }
 
+  function postRegist(){
+    let newPosts = [...posts];
+    newPosts.push(inputValue);
+    setPosts(newPosts);
+
+    let newLikes = [...likes];
+    newLikes.push(0);
+    addLike(newLikes);
+  }
+
+ 
   return (
     <div className="App">
       <BlackNavBar></BlackNavBar>
@@ -28,24 +40,30 @@ function App() {
         posts.map((post, index) => {
           return (
             <div className = "list" key = {index}>
-              <h4 onClick = {() => {
-                setModal(!modal)
-                setTitle(index)
-              }}>
-                {post}<span onClick = {(e) => { 
+              <h4 onClick = {() => {setModal(!modal); setTitle(index);}}>
+                {post}
+                <span onClick = {(e) => { 
                   e.stopPropagation();
                   likeHandler(index);
                 }}>👍</span>{likes[index]}</h4>
                 <p>12월 9일 발행</p>
+                <button onClick = { () => { deletePost(index)}}>삭제</button>
             </div>
           )
         })
       }
 
-      <input onChange={(e) => {console.log(e.target.value)}}></input>      
-        
+           
+      <div>
+        <input onChange={(e) => {
+          setInputValue(e.target.value);
+        }}></input>
+        <button onClick={() => { postRegist()}}>등록</button> 
+      </div>
+
+
       {
-        modal == true ? <Modal title = {title} modifyTitle = {modifyTitle} posts = {posts} ></Modal> : null 
+        modal == true ? <Modal title = {title} setPosts = {setPosts} posts = {posts} ></Modal> : null 
       }
 
     </div>
@@ -72,7 +90,7 @@ function Modal(props){
       <button onClick={ () => {
         let newPost = [...props.posts];
         newPost[0] = "여자코트 추천";
-        props.modifyTitle(newPost);
+        props.setPosts(newPost);
 
       } }>글 수정</button>
     </div>
