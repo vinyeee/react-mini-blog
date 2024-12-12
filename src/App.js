@@ -32,8 +32,9 @@ function App() {
                 setModal(!modal)
                 setTitle(index)
               }}>
-                {post}<span onClick = {() => { 
-                  likeHandler(index)
+                {post}<span onClick = {(e) => { 
+                  e.stopPropagation();
+                  likeHandler(index);
                 }}>👍</span>{likes[index]}</h4>
                 <p>12월 9일 발행</p>
             </div>
@@ -41,6 +42,7 @@ function App() {
         })
       }
 
+      <input onChange={(e) => {console.log(e.target.value)}}></input>      
         
       {
         modal == true ? <Modal title = {title} modifyTitle = {modifyTitle} posts = {posts} ></Modal> : null 
